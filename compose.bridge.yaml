@@ -1,0 +1,12 @@
+# Optional: docker compose -f compose.yaml -f compose.bridge.yaml up -d
+services:
+  app:
+    environment:
+      WEBHOOK_LAB_URL: http://webhook-lab:8080
+    networks:
+      - default
+      - webhook-bridge
+networks:
+  webhook-bridge:
+    external: true
+    name: tracelens-bridge

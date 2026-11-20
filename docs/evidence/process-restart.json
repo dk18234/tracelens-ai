@@ -1,0 +1,10 @@
+{
+  "passed": true,
+  "signal": "SIGKILL",
+  "jobId": "492f74f1-fced-4c58-b62f-014c25c09319",
+  "statusBefore": "QUEUED",
+  "statusAfterRestart": "QUEUED",
+  "sameJobId": true,
+  "capturedRevision": 1,
+  "automaticModelCallsDuringRestart": 0
+}

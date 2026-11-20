@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: tracelens-ai
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/tracelens}
+    username: ${DATABASE_USER:tracelens}
+    password: ${DATABASE_PASSWORD:tracelens_local}
+    hikari:
+      maximum-pool-size: 8
+      connection-timeout: 5000
+server:
+  port: ${PORT:8081}
+  shutdown: graceful
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+trace:
+  admin-token: ${ADMIN_TOKEN:local-tracelens-token-change-before-hosting}
+  ollama-url: ${OLLAMA_URL:http://localhost:11434}
+  chat-model: ${CHAT_MODEL:qwen2.5:3b}
+  embedding-model: ${EMBEDDING_MODEL:all-minilm}
+  model-timeout-seconds: ${MODEL_TIMEOUT_SECONDS:120}
+  worker-enabled: ${WORKER_ENABLED:true}
+  lease-seconds: ${LEASE_SECONDS:600}
+  webhook-lab-url: ${WEBHOOK_LAB_URL:}
+  webhook-admin-token: ${WEBHOOK_ADMIN_TOKEN:}

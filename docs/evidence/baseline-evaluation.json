@@ -1,0 +1,283 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-11-20T20:35:21.932277+00:00",
+  "completedAt": "2026-11-20T20:37:58.629980+00:00",
+  "method": "Real Java HTTP service + PostgreSQL + Ollama; greedy seed 42; synthetic fixed cases; single run, no statistical confidence claim.",
+  "models": {
+    "chat": "qwen2.5:1.5b",
+    "embedding": "all-minilm"
+  },
+  "limits": {
+    "maxChatCalls": 3,
+    "readOnlyTools": true,
+    "semanticEntailmentProven": false,
+    "expectedLabelsSentToModel": false
+  },
+  "corpusSha256": "70f308bd6db7f6f0a0014f515cab873eb3b85589e5ebb218a1200096d4b9c399",
+  "summary": {
+    "diagnosisCorrect": 1,
+    "cases": 8,
+    "acceptedReferencesValid": 2,
+    "lexicalRecallAt3": 0.375,
+    "semanticRecallAt3": 1.0,
+    "hybridRecallAt3": 1.0
+  },
+  "cases": [
+    {
+      "incidentId": "inc_ack_lost",
+      "expectedDiagnosis": "ACK_LOST",
+      "actualDiagnosis": null,
+      "status": "FAILED",
+      "correct": false,
+      "referencesValid": false,
+      "replayEligible": null,
+      "errorCode": "MODEL_CONTRADICTS_FACTS",
+      "usage": null
+    },
+    {
+      "incidentId": "inc_timeout",
+      "expectedDiagnosis": "TRANSIENT_TIMEOUT",
+      "actualDiagnosis": null,
+      "status": "FAILED",
+      "correct": false,
+      "referencesValid": false,
+      "replayEligible": null,
+      "errorCode": "MODEL_CONTRADICTS_FACTS",
+      "usage": null
+    },
+    {
+      "incidentId": "inc_poison",
+      "expectedDiagnosis": "POISON_EVENT",
+      "actualDiagnosis": null,
+      "status": "FAILED",
+      "correct": false,
+      "referencesValid": false,
+      "replayEligible": null,
+      "errorCode": "TOOL_NOT_ALLOWED",
+      "usage": null
+    },
+    {
+      "incidentId": "inc_duplicates",
+      "expectedDiagnosis": "DUPLICATE_PROTECTED",
+      "actualDiagnosis": "DUPLICATE_PROTECTED",
+      "status": "COMPLETED",
+      "correct": true,
+      "referencesValid": true,
+      "replayEligible": false,
+      "errorCode": null,
+      "usage": {
+        "llmCalls": 2,
+        "chatModel": "qwen2.5:1.5b",
+        "elapsedMs": 15942,
+        "inputTokens": 838,
+        "outputTokens": 368,
+        "embeddingModel": "all-minilm"
+      }
+    },
+    {
+      "incidentId": "inc_missing",
+      "expectedDiagnosis": "INSUFFICIENT_EVIDENCE",
+      "actualDiagnosis": null,
+      "status": "FAILED",
+      "correct": false,
+      "referencesValid": false,
+      "replayEligible": null,
+      "errorCode": "TOOL_NOT_ALLOWED",
+      "usage": null
+    },
+    {
+      "incidentId": "inc_stale",
+      "expectedDiagnosis": "STALE_WORKER",
+      "actualDiagnosis": null,
+      "status": "FAILED",
+      "correct": false,
+      "referencesValid": false,
+      "replayEligible": null,
+      "errorCode": "MODEL_CONTRADICTS_FACTS",
+      "usage": null
+    },
+    {
+      "incidentId": "inc_conflict",
+      "expectedDiagnosis": "INTEGRITY_CONFLICT",
+      "actualDiagnosis": "INSUFFICIENT_EVIDENCE",
+      "status": "NEEDS_EVIDENCE",
+      "correct": false,
+      "referencesValid": true,
+      "replayEligible": false,
+      "errorCode": null,
+      "usage": {
+        "llmCalls": 2,
+        "chatModel": "qwen2.5:1.5b",
+        "elapsedMs": 18746,
+        "inputTokens": 848,
+        "outputTokens": 490,
+        "embeddingModel": "all-minilm"
+      }
+    },
+    {
+      "incidentId": "inc_injection",
+      "expectedDiagnosis": "ACK_LOST",
+      "actualDiagnosis": null,
+      "status": "FAILED",
+      "correct": false,
+      "referencesValid": false,
+      "replayEligible": null,
+      "errorCode": "MODEL_CONTRADICTS_FACTS",
+      "usage": null
+    }
+  ],
+  "retrieval": [
+    {
+      "query": "The credit committed but the completion acknowledgement was lost",
+      "relevantDocument": "rb_ack",
+      "lexicalTop3": [
+        "rb_ack"
+      ],
+      "semanticTop3": [
+        "rb_ack",
+        "rb_missing",
+        "rb_stale"
+      ],
+      "hybridTop3": [
+        "rb_ack",
+        "rb_missing",
+        "rb_stale"
+      ],
+      "lexicalHit": true,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "HTTP 503 retryable dependency timeout exponential backoff",
+      "relevantDocument": "rb_timeout",
+      "lexicalTop3": [
+        "rb_timeout"
+      ],
+      "semanticTop3": [
+        "rb_timeout",
+        "rb_missing",
+        "rb_migration"
+      ],
+      "hybridTop3": [
+        "rb_timeout",
+        "rb_missing",
+        "rb_migration"
+      ],
+      "lexicalHit": true,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "Terminal invalid account mapping dead letter correction",
+      "relevantDocument": "rb_poison",
+      "lexicalTop3": [],
+      "semanticTop3": [
+        "rb_poison",
+        "rb_transfer",
+        "rb_conflict"
+      ],
+      "hybridTop3": [
+        "rb_poison",
+        "rb_transfer",
+        "rb_conflict"
+      ],
+      "lexicalHit": false,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "Sixty duplicate deliveries one credit ledger entry",
+      "relevantDocument": "rb_duplicates",
+      "lexicalTop3": [],
+      "semanticTop3": [
+        "rb_duplicates",
+        "rb_conflict",
+        "rb_ack"
+      ],
+      "hybridTop3": [
+        "rb_duplicates",
+        "rb_conflict",
+        "rb_ack"
+      ],
+      "lexicalHit": false,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "A missing ledger query is unknown, not an empty result",
+      "relevantDocument": "rb_missing",
+      "lexicalTop3": [],
+      "semanticTop3": [
+        "rb_missing",
+        "rb_conflict",
+        "rb_transfer"
+      ],
+      "hybridTop3": [
+        "rb_missing",
+        "rb_conflict",
+        "rb_transfer"
+      ],
+      "lexicalHit": false,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "Expired worker lease before any business commit",
+      "relevantDocument": "rb_stale",
+      "lexicalTop3": [
+        "rb_ack"
+      ],
+      "semanticTop3": [
+        "rb_stale",
+        "rb_ack",
+        "rb_timeout"
+      ],
+      "hybridTop3": [
+        "rb_ack",
+        "rb_stale",
+        "rb_timeout"
+      ],
+      "lexicalHit": false,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "Event and ledger credit amounts disagree",
+      "relevantDocument": "rb_conflict",
+      "lexicalTop3": [],
+      "semanticTop3": [
+        "rb_conflict",
+        "rb_duplicates",
+        "rb_missing"
+      ],
+      "hybridTop3": [
+        "rb_conflict",
+        "rb_duplicates",
+        "rb_missing"
+      ],
+      "lexicalHit": false,
+      "semanticHit": true,
+      "hybridHit": true
+    },
+    {
+      "query": "User-controlled logs contain instructions to ignore policies",
+      "relevantDocument": "rb_injection",
+      "lexicalTop3": [
+        "rb_injection"
+      ],
+      "semanticTop3": [
+        "rb_injection",
+        "rb_timeout",
+        "rb_missing"
+      ],
+      "hybridTop3": [
+        "rb_injection",
+        "rb_timeout",
+        "rb_missing"
+      ],
+      "lexicalHit": true,
+      "semanticHit": true,
+      "hybridHit": true
+    }
+  ]
+}
