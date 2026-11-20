@@ -8,6 +8,8 @@ TraceLens turns captured event state, attempts, ledger entries, logs, and retrie
 
 The public demo replays actual local-model sessions on synthetic incidents. It does not run live inference or accept new questions. The full local application below includes the Java service, PostgreSQL, real embedding and chat inference, editable questions, and a read-only connection to [Webhook Recovery Lab](https://github.com/dk18234/webhook-recovery-lab).
 
+![TraceLens investigation workspace](docs/evidence/tracelens-desktop.jpg)
+
 ## What is implemented
 
 - Evidence tools scoped to one captured incident: event, attempts, ledger, and logs. The trace distinguishes model-selected reads from the complete evidence set required by Java.
@@ -73,6 +75,8 @@ export ADMIN_TOKEN=local-tracelens-token-change-before-hosting
 Create the named database and user before starting. Flyway creates the tables; the app seeds eight synthetic incidents and twelve runbook chunks. Incident seeds do not overwrite existing revisions. Java 21 **JDK** is required for builds. Maven is downloaded by the wrapper.
 
 ## Investigate through the API
+
+Set `ADMIN_TOKEN` in your shell to the same value used by the running service before using these examples or the evaluator.
 
 ```bash
 curl -s http://localhost:8081/api/incidents \

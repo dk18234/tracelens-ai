@@ -31,7 +31,7 @@ These are small, hand-authored examples. The questions and runbooks were designe
 
 ## Iteration evidence
 
-[baseline-evaluation.json](evidence/baseline-evaluation.json) preserves an early real run using the smaller `qwen2.5:1.5b` model before prompt/schema/advice improvements. It demonstrates why invalid classifications were rejected and why correct structured labels do not guarantee correct prose. The selected final model is `qwen2.5:7b`, schema grounding in the prompt, explicit captured facts, applicable advice constraints, and invariant-constrained classification. This is an engineering iteration, not a controlled single-variable model comparison.
+[baseline-evaluation.json](evidence/baseline-evaluation.json) preserves an early real run using the smaller `qwen2.5:1.5b` model before prompt/schema/advice improvements. It demonstrates why invalid classifications were rejected and why correct structured labels do not guarantee correct prose. The final recording uses `qwen2.5:7b` with schema grounding in the prompt, explicit captured facts, applicable advice constraints, and invariant-constrained classification. This is an engineering iteration, not a controlled single-variable model comparison.
 
 ## What is deliberately not claimed
 
@@ -56,3 +56,9 @@ The evaluator exits nonzero on a wrong/missing diagnosis or invalid references a
 A real intermediate run at commit `94e3beb84c6074011a4a84c629589e45f9d879b7` had 7/8 matching labels and valid source IDs, but its injected-log report still described replay as safe while backend policy blocked it. That is a concrete example of why label and citation scores are insufficient. The implementation now quarantines instruction-like captured logs before model input, retains the raw text for auditors, records the boundary in the trace, and rejects specific affirmative replay phrases when policy blocks replay. One repair is allowed. These are narrow heuristics, not a general prompt-injection detector or semantic entailment guarantee. Novel phrasing, misleading evidence, and other incorrect prose remain limitations. The interface calls the output an AI draft.
 
 The 3B intermediate model still misstated simple captured facts after the injection boundary was added. The default was increased to 7B, and the complete actual-model run was repeated. Inspect the saved prose as well as labels: these iterations do not establish semantic entailment or general reliability.
+
+## Final run and manual review
+
+The final recorded run matched all eight expected diagnosis labels and all accepted source references. Its workflow and source commit are embedded in the raw evaluation JSON. This is a result on the fixed, rule-constrained synthetic set, not a general accuracy claim.
+
+Manual review also found wording limits: the timeout finding shortened the event identifier, and the missing-ledger finding called the snapshots inconsistent when the ledger was actually unavailable. In the conflict case, wording about a corresponding entry should be checked against the captured row with a different amount. The raw AI output is preserved. Backend policy and captured evidence remain separate from the draft explanation; an existing citation is not proof that a sentence is accurate.
