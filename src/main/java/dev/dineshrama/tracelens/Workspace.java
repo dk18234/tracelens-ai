@@ -22,11 +22,13 @@ public class Workspace implements ApplicationRunner {
     try (InputStream stream = getClass().getResourceAsStream("/fixtures/runbooks.json")) {
       for (JsonNode item : Json.read(new String(Objects.requireNonNull(stream).readAllBytes(), java.nio.charset.StandardCharsets.UTF_8))) {
         String body = item.path("body").asText();
+        String title = item.path("title").asText();
         db.update("INSERT INTO runbooks(id,title,body,content_hash) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET title=EXCLUDED.title,body=EXCLUDED.body,content_hash=EXCLUDED.content_hash",
-            item.path("id").asText(), item.path("title").asText(), body, Json.hash(body));
+            item.path("id").asText(), title, body, documentHash(title,body));
       }
     }
   }
+  static String documentHash(String title,String body) { return Json.hash(title+"\n"+body); }
   public List<Map<String,Object>> incidents() {
     return db.queryForList("SELECT id,title,severity,summary,revision,source,updated_at FROM incidents ORDER BY id");
   }

@@ -15,6 +15,20 @@ class PolicyAndContractTest {
   JsonNode report(String code) {
     return Json.read(Json.write(Map.of("diagnosisCode",code,"summary","The ledger contains a committed effect.","findings",List.of(Map.of("text","One credit entry is present.","evidenceIds",List.of("E3"))),"missingEvidence",List.of(),"nextSteps",List.of("COMPARE_LEDGER"))));
   }
+  @Test void titleOnlyEditsInvalidateTheSemanticEmbeddingCache() {
+    assertThat(Workspace.documentHash("Old title","Same body")).isNotEqualTo(Workspace.documentHash("New title","Same body"));
+    assertThat(Workspace.documentHash("Title","Old body")).isNotEqualTo(Workspace.documentHash("Title","New body"));
+  }
+  @Test void incompleteEventCannotAuthorizeAReplay() throws Exception {
+    var data=fixture("inc_poison");var event=(ObjectNode)data.path("event");
+    event.put("fault_mode","NONE");event.remove("account_id");
+    var policy=RecoveryPolicy.assess(data);assertThat(policy.action()).isEqualTo("REQUEST_EVIDENCE");assertThat(policy.replayEligible()).isFalse();
+  }
+  @Test void fractionalOrOverflowingLedgerAmountsCannotMatchAnIntegerCredit() throws Exception {
+    var data=fixture("inc_ack_lost");var entry=(ObjectNode)data.path("ledger").path("entries").get(0);
+    entry.put("credits",10.5);assertThat(RecoveryPolicy.assess(data).action()).isEqualTo("INVESTIGATE_CONFLICT");
+    entry.put("credits",4294967306L);assertThat(RecoveryPolicy.assess(data).action()).isEqualTo("INVESTIGATE_CONFLICT");
+  }
   @Test void committedEffectBlocksReplayAndRequestsReconciliation() throws Exception {
     var d=RecoveryPolicy.assess(fixture("inc_ack_lost"));assertThat(d.action()).isEqualTo("RECONCILE_STATUS");assertThat(d.replayEligible()).isFalse();
   }

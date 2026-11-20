@@ -1,0 +1,81 @@
+name: Record real AI demo
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/record-demo.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ADMIN_TOKEN: local-tracelens-token-change-before-hosting
+      WEBHOOK_ADMIN_TOKEN: local-admin-token-change-before-hosting
+      WEBHOOK_SECRET: local-webhook-secret-change-before-hosting
+      WEBHOOK_BASE_URL: http://localhost:8080
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: dk18234/webhook-recovery-lab
+          path: upstream
+          persist-credentials: false
+      - name: Start the real upstream backend
+        run: |
+          cp upstream/.env.example upstream/.env
+          docker network create tracelens-bridge
+          ADMIN_TOKEN=local-admin-token-change-before-hosting DATABASE_PASSWORD=webhook_local docker compose -f upstream/compose.yaml --env-file upstream/.env -p webhook-recovery-lab up --build -d
+          curl --fail --retry 90 --retry-delay 3 --retry-connrefused --retry-all-errors http://localhost:8080/actuator/health
+          docker network connect --alias webhook-lab tracelens-bridge "$(ADMIN_TOKEN=local-admin-token-change-before-hosting docker compose -f upstream/compose.yaml --env-file upstream/.env -p webhook-recovery-lab ps -q app)"
+      - name: Start TraceLens with actual local models
+        run: |
+          docker compose -f compose.yaml -f compose.bridge.yaml up --build -d
+          curl --fail --retry 90 --retry-delay 3 --retry-connrefused --retry-all-errors http://localhost:8081/actuator/health
+      - name: Verify the real read-only bridge
+        run: python scripts/webhook_bridge_smoke.py
+      - name: Record all eight model investigations and retrieval results
+        run: |
+          python scripts/live_evaluation.py --demo-output docs/demo-data.json || { echo "::warning::The strict label score includes a mismatch. Observed results are retained without replacing failed answers."; test -s docs/demo-data.json; }
+          python scripts/package_demo.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('docs/demo-data.json')
+          d=json.loads(p.read_text())
+          assert len(d['recordings'])==8
+          d['provenance']['execution']={'provider':'GitHub Actions','workflowRun':'https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}','sourceCommit':'${{ github.sha }}'}
+          p.write_text(json.dumps(d,indent=2)+'\n')
+          r=Path('docs/evidence/live-evaluation.json')
+          r.write_text(json.dumps(d['provenance'],indent=2)+'\n')
+          PY
+      - name: Commit actual synthetic demo recordings
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs
+          git diff --cached --quiet || git commit -m "Record actual AI sessions and verify the read-only project bridge"
+          git push origin HEAD:main
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: actual-ai-demo
+          path: |
+            docs/demo-data.json
+            docs/evidence/
+      - name: Capture diagnostics
+        if: always()
+        run: |
+          docker compose -f compose.yaml -f compose.bridge.yaml logs --no-color > /tmp/tracelens.log
+          ADMIN_TOKEN=local-admin-token-change-before-hosting docker compose -f upstream/compose.yaml --env-file upstream/.env -p webhook-recovery-lab logs --no-color > /tmp/upstream.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: demo-service-diagnostics
+          path: /tmp/*.log
+      - name: Stop disposable services
+        if: always()
+        run: |
+          docker compose -f compose.yaml -f compose.bridge.yaml down -v
+          ADMIN_TOKEN=local-admin-token-change-before-hosting docker compose -f upstream/compose.yaml --env-file upstream/.env -p webhook-recovery-lab down -v

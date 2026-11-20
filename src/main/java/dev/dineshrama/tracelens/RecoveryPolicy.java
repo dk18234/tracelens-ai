@@ -9,13 +9,19 @@ public final class RecoveryPolicy {
 
   public static Decision assess(JsonNode snapshot) {
     var event=snapshot.path("event");var ledger=snapshot.path("ledger");
-    if(!event.isObject())return new Decision("REQUEST_EVIDENCE","Event state is unavailable. No recovery decision can be made.",false,List.of("Current event state"));
+    if(!event.isObject() || !event.path("id").isTextual() || event.path("id").asText().isBlank()
+        || !event.path("account_id").isTextual() || event.path("account_id").asText().isBlank()
+        || !event.path("credits").isIntegralNumber() || !event.path("credits").canConvertToInt()
+        || event.path("credits").asInt()<1 || event.path("credits").asInt()>1_000_000
+        || !Set.of("RECEIVED","PROCESSING","RETRY_WAIT","DEAD_LETTER","SUCCEEDED").contains(event.path("status").asText()))
+      return new Decision("REQUEST_EVIDENCE","Complete event identity, account, amount, and status are required.",false,List.of("Complete current event state"));
     if(!ledger.path("known").asBoolean())return new Decision("REQUEST_EVIDENCE","Unknown ledger state is not proof that no credit was applied.",false,List.of("Authoritative ledger snapshot"));
     if(snapshot.path("integrityConflict").asBoolean())return new Decision("INVESTIGATE_CONFLICT","The captured sources disagree. Resolve the snapshot conflict before recovery.",false,List.of("Consistent event and ledger snapshot"));
     var entries=ledger.path("entries");
     if(!entries.isArray())return new Decision("REQUEST_EVIDENCE","A complete ledger result is required.",false,List.of("Complete ledger query result"));
     if(entries.size()>0) {
       boolean mismatch=entries.size()!=1 || !entries.get(0).path("event_id").asText().equals(event.path("id").asText())
+          || !entries.get(0).path("credits").isIntegralNumber() || !entries.get(0).path("credits").canConvertToInt()
           || entries.get(0).path("credits").asInt()!=event.path("credits").asInt()
           || !entries.get(0).path("account_id").asText().equals(event.path("account_id").asText());
       if(mismatch)return new Decision("INVESTIGATE_CONFLICT","Ledger identity or amount does not match the event.",false,List.of("Verified ledger integrity"));
