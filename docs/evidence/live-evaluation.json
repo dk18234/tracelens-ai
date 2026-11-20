@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T21:35:37.949317+00:00",
-  "completedAt": "2026-11-20T21:43:36.366389+00:00",
+  "startedAt": "2026-11-20T22:14:34.516635+00:00",
+  "completedAt": "2026-11-20T22:22:08.919697+00:00",
   "method": "Real Java HTTP service + PostgreSQL + Ollama; greedy seed 42; synthetic fixed cases; single run, no statistical confidence claim.",
   "models": {
     "chat": "qwen2.5:3b",
@@ -33,11 +33,11 @@
       "replayEligible": false,
       "errorCode": null,
       "usage": {
-        "llmCalls": 2,
+        "llmCalls": 3,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 69434,
-        "inputTokens": 1223,
-        "outputTokens": 280,
+        "elapsedMs": 78216,
+        "inputTokens": 2389,
+        "outputTokens": 302,
         "embeddingModel": "all-minilm"
       }
     },
@@ -53,9 +53,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 63457,
-        "inputTokens": 1228,
-        "outputTokens": 299,
+        "elapsedMs": 56296,
+        "inputTokens": 1284,
+        "outputTokens": 204,
         "embeddingModel": "all-minilm"
       }
     },
@@ -71,9 +71,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 54677,
-        "inputTokens": 1202,
-        "outputTokens": 227,
+        "elapsedMs": 53692,
+        "inputTokens": 1268,
+        "outputTokens": 186,
         "embeddingModel": "all-minilm"
       }
     },
@@ -89,9 +89,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 58490,
-        "inputTokens": 1225,
-        "outputTokens": 250,
+        "elapsedMs": 56148,
+        "inputTokens": 1282,
+        "outputTokens": 205,
         "embeddingModel": "all-minilm"
       }
     },
@@ -107,9 +107,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 57851,
-        "inputTokens": 1217,
-        "outputTokens": 254,
+        "elapsedMs": 54040,
+        "inputTokens": 1266,
+        "outputTokens": 190,
         "embeddingModel": "all-minilm"
       }
     },
@@ -125,9 +125,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 57794,
-        "inputTokens": 1215,
-        "outputTokens": 252,
+        "elapsedMs": 55275,
+        "inputTokens": 1272,
+        "outputTokens": 199,
         "embeddingModel": "all-minilm"
       }
     },
@@ -143,9 +143,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 58426,
-        "inputTokens": 1239,
-        "outputTokens": 253,
+        "elapsedMs": 54849,
+        "inputTokens": 1295,
+        "outputTokens": 185,
         "embeddingModel": "all-minilm"
       }
     },
@@ -161,9 +161,9 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 49730,
-        "inputTokens": 1248,
-        "outputTokens": 290,
+        "elapsedMs": 37603,
+        "inputTokens": 1270,
+        "outputTokens": 167,
         "embeddingModel": "all-minilm"
       }
     }
@@ -324,7 +324,7 @@
   ],
   "execution": {
     "provider": "GitHub Actions",
-    "workflowRun": "https://github.com/dk18234/tracelens-ai/actions/runs/44821223328",
-    "sourceCommit": "fbac19a8d87f0a5b9b9e9dc458b3b2a31a6858dd"
+    "workflowRun": "https://github.com/dk18234/tracelens-ai/actions/runs/44826831048",
+    "sourceCommit": "e48670138e00374a790893e3e8aa4a363713e754"
   }
 }
