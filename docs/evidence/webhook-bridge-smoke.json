@@ -1,0 +1,12 @@
+{
+  "passed": true,
+  "upstreamEventId": "evt_bridge_6ff2a3f343ca",
+  "upstreamStatus": "SUCCEEDED",
+  "ledgerEntries": 1,
+  "firstRevision": 1,
+  "secondRevision": 2,
+  "upstreamEventUnchanged": true,
+  "upstreamLedgerUnchanged": true,
+  "importMethod": "GET",
+  "note": "Synthetic traffic was explicitly created by the test utility. The TraceLens adapter made only GET requests."
+}

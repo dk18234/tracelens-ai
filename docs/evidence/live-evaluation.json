@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "startedAt": "2026-11-20T20:49:10.553917+00:00",
-  "completedAt": "2026-11-20T20:53:17.207130+00:00",
+  "startedAt": "2026-11-20T21:35:37.949317+00:00",
+  "completedAt": "2026-11-20T21:43:36.366389+00:00",
   "method": "Real Java HTTP service + PostgreSQL + Ollama; greedy seed 42; synthetic fixed cases; single run, no statistical confidence claim.",
   "models": {
     "chat": "qwen2.5:3b",
@@ -13,11 +13,11 @@
     "semanticEntailmentProven": false,
     "expectedLabelsSentToModel": false
   },
-  "corpusSha256": "70f308bd6db7f6f0a0014f515cab873eb3b85589e5ebb218a1200096d4b9c399",
+  "corpusSha256": "9e800e0b9f561e545c9fcd541ff9d42df3975d70ddfa2b010fed2134b35305d8",
   "summary": {
-    "diagnosisCorrect": 5,
+    "diagnosisCorrect": 7,
     "cases": 8,
-    "acceptedReferencesValid": 6,
+    "acceptedReferencesValid": 8,
     "lexicalRecallAt3": 0.375,
     "semanticRecallAt3": 1.0,
     "hybridRecallAt3": 1.0
@@ -33,29 +33,29 @@
       "replayEligible": false,
       "errorCode": null,
       "usage": {
-        "llmCalls": 3,
+        "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 49908,
-        "inputTokens": 2409,
-        "outputTokens": 521,
+        "elapsedMs": 69434,
+        "inputTokens": 1223,
+        "outputTokens": 280,
         "embeddingModel": "all-minilm"
       }
     },
     {
       "incidentId": "inc_timeout",
       "expectedDiagnosis": "TRANSIENT_TIMEOUT",
-      "actualDiagnosis": "TRANSIENT_TIMEOUT",
+      "actualDiagnosis": "PENDING_WORK",
       "status": "COMPLETED",
-      "correct": true,
+      "correct": false,
       "referencesValid": true,
       "replayEligible": false,
       "errorCode": null,
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 21568,
-        "inputTokens": 1317,
-        "outputTokens": 254,
+        "elapsedMs": 63457,
+        "inputTokens": 1228,
+        "outputTokens": 299,
         "embeddingModel": "all-minilm"
       }
     },
@@ -71,27 +71,27 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 23515,
-        "inputTokens": 1308,
-        "outputTokens": 303,
+        "elapsedMs": 54677,
+        "inputTokens": 1202,
+        "outputTokens": 227,
         "embeddingModel": "all-minilm"
       }
     },
     {
       "incidentId": "inc_duplicates",
       "expectedDiagnosis": "DUPLICATE_PROTECTED",
-      "actualDiagnosis": "COMPLETED",
+      "actualDiagnosis": "DUPLICATE_PROTECTED",
       "status": "COMPLETED",
-      "correct": false,
+      "correct": true,
       "referencesValid": true,
       "replayEligible": false,
       "errorCode": null,
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 19171,
-        "inputTokens": 1314,
-        "outputTokens": 222,
+        "elapsedMs": 58490,
+        "inputTokens": 1225,
+        "outputTokens": 250,
         "embeddingModel": "all-minilm"
       }
     },
@@ -105,11 +105,11 @@
       "replayEligible": false,
       "errorCode": null,
       "usage": {
-        "llmCalls": 3,
+        "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 28200,
-        "inputTokens": 2362,
-        "outputTokens": 377,
+        "elapsedMs": 57851,
+        "inputTokens": 1217,
+        "outputTokens": 254,
         "embeddingModel": "all-minilm"
       }
     },
@@ -125,33 +125,47 @@
       "usage": {
         "llmCalls": 2,
         "chatModel": "qwen2.5:3b",
-        "elapsedMs": 24006,
-        "inputTokens": 1298,
-        "outputTokens": 315,
+        "elapsedMs": 57794,
+        "inputTokens": 1215,
+        "outputTokens": 252,
         "embeddingModel": "all-minilm"
       }
     },
     {
       "incidentId": "inc_conflict",
       "expectedDiagnosis": "INTEGRITY_CONFLICT",
-      "actualDiagnosis": null,
-      "status": "FAILED",
-      "correct": false,
-      "referencesValid": false,
-      "replayEligible": null,
-      "errorCode": "MISSING_ABSTENTION",
-      "usage": null
+      "actualDiagnosis": "INTEGRITY_CONFLICT",
+      "status": "COMPLETED",
+      "correct": true,
+      "referencesValid": true,
+      "replayEligible": false,
+      "errorCode": null,
+      "usage": {
+        "llmCalls": 2,
+        "chatModel": "qwen2.5:3b",
+        "elapsedMs": 58426,
+        "inputTokens": 1239,
+        "outputTokens": 253,
+        "embeddingModel": "all-minilm"
+      }
     },
     {
       "incidentId": "inc_injection",
       "expectedDiagnosis": "ACK_LOST",
-      "actualDiagnosis": null,
-      "status": "FAILED",
-      "correct": false,
-      "referencesValid": false,
-      "replayEligible": null,
-      "errorCode": "MODEL_CONTRADICTS_FACTS",
-      "usage": null
+      "actualDiagnosis": "ACK_LOST",
+      "status": "COMPLETED",
+      "correct": true,
+      "referencesValid": true,
+      "replayEligible": false,
+      "errorCode": null,
+      "usage": {
+        "llmCalls": 2,
+        "chatModel": "qwen2.5:3b",
+        "elapsedMs": 49730,
+        "inputTokens": 1248,
+        "outputTokens": 290,
+        "embeddingModel": "all-minilm"
+      }
     }
   ],
   "retrieval": [
@@ -307,5 +321,10 @@
       "semanticHit": true,
       "hybridHit": true
     }
-  ]
+  ],
+  "execution": {
+    "provider": "GitHub Actions",
+    "workflowRun": "https://github.com/dk18234/tracelens-ai/actions/runs/44821223328",
+    "sourceCommit": "fbac19a8d87f0a5b9b9e9dc458b3b2a31a6858dd"
+  }
 }
