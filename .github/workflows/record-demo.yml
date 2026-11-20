@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     env:
+      CHAT_MODEL: qwen2.5:7b
       ADMIN_TOKEN: local-tracelens-token-change-before-hosting
       WEBHOOK_ADMIN_TOKEN: local-admin-token-change-before-hosting
       WEBHOOK_SECRET: local-webhook-secret-change-before-hosting

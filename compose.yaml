@@ -30,7 +30,7 @@ services:
     image: ollama/ollama:0.40.16
     environment:
       OLLAMA_HOST: http://ollama:11434
-      CHAT_MODEL: ${CHAT_MODEL:-qwen2.5:3b}
+      CHAT_MODEL: ${CHAT_MODEL:-qwen2.5:7b}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-all-minilm}
     entrypoint: ["/bin/sh", "-c"]
     command: ['ollama pull "$$CHAT_MODEL" && ollama pull "$$EMBEDDING_MODEL"']
@@ -47,7 +47,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-tracelens_local}
       ADMIN_TOKEN: ${ADMIN_TOKEN:-local-tracelens-token-change-before-hosting}
       OLLAMA_URL: http://ollama:11434
-      CHAT_MODEL: ${CHAT_MODEL:-qwen2.5:3b}
+      CHAT_MODEL: ${CHAT_MODEL:-qwen2.5:7b}
       EMBEDDING_MODEL: ${EMBEDDING_MODEL:-all-minilm}
       WEBHOOK_LAB_URL: ${WEBHOOK_LAB_URL:-}
       WEBHOOK_ADMIN_TOKEN: ${WEBHOOK_ADMIN_TOKEN:-}

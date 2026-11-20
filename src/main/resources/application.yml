@@ -22,7 +22,7 @@ management:
 trace:
   admin-token: ${ADMIN_TOKEN:local-tracelens-token-change-before-hosting}
   ollama-url: ${OLLAMA_URL:http://localhost:11434}
-  chat-model: ${CHAT_MODEL:qwen2.5:3b}
+  chat-model: ${CHAT_MODEL:qwen2.5:7b}
   embedding-model: ${EMBEDDING_MODEL:all-minilm}
   model-timeout-seconds: ${MODEL_TIMEOUT_SECONDS:120}
   worker-enabled: ${WORKER_ENABLED:true}

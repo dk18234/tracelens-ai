@@ -24,7 +24,7 @@ The public demo replays actual local-model sessions on synthetic incidents. It d
 | --- | --- |
 | Backend | Java 21, Spring Boot 3.5.16, Spring JDBC, Flyway |
 | Persistence | PostgreSQL 16; JSONB evidence, English full-text index, vector arrays |
-| Chat inference | Ollama HTTP API; default `qwen2.5:3b` |
+| Chat inference | Ollama HTTP API; default `qwen2.5:7b` |
 | Embeddings | Ollama `all-minilm`; vectors generated locally and persisted |
 | Retrieval | Exact cosine in Java + reciprocal-rank fusion, k=60 |
 | UI | Accessible HTML, CSS, JavaScript modules; shared live/recorded interface |
@@ -34,7 +34,7 @@ This project uses direct Ollama HTTP integration. It does not use Spring AI, pgv
 
 ## Run the full application
 
-Install Docker with Compose. The default model weights total about 2 GB, with additional space required for images, the database, and build dependencies. Allow roughly 8 GB of available memory; actual CPU latency depends on your machine. Model weights have their own licenses; the source license does not replace them.
+Install Docker with Compose. The default model weights total about 5 GB, with additional space required for images, the database, and build dependencies. Allow roughly 12 GB of available memory; actual CPU latency depends on your machine. Model weights have their own licenses; the source license does not replace them.
 
 ```bash
 git clone https://github.com/dk18234/tracelens-ai.git
@@ -61,7 +61,7 @@ To change the model, edit `CHAT_MODEL` in `.env`, run `docker compose up -d --fo
 Start PostgreSQL and [Ollama](https://ollama.com), then:
 
 ```bash
-ollama pull qwen2.5:3b
+ollama pull qwen2.5:7b
 ollama pull all-minilm
 export DATABASE_URL=jdbc:postgresql://localhost:5432/tracelens
 export DATABASE_USER=tracelens
