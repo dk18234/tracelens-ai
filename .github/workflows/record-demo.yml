@@ -37,6 +37,7 @@ jobs:
         run: python scripts/webhook_bridge_smoke.py
       - name: Record all eight model investigations and retrieval results
         run: |
+          rm -f docs/demo-data.json docs/evidence/live-evaluation.json
           python scripts/live_evaluation.py --demo-output docs/demo-data.json || { echo "::warning::The strict label score includes a mismatch. Observed results are retained without replacing failed answers."; test -s docs/demo-data.json; }
           python scripts/package_demo.py
           python - <<'PY'

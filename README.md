@@ -4,7 +4,7 @@ An event says **PROCESSING**. Its ledger already contains the credit. Should an 
 
 TraceLens turns captured event state, attempts, ledger entries, logs, and retrieved runbooks into a cited explanation. A real local language model selects read tools and writes the report. Java captures the evidence, constrains and verifies the output, and independently decides recovery eligibility. No recovery action executes from this app.
 
-**[Explore the recorded AI demo](https://dk18234.github.io/tracelens-ai/)** · **[Architecture](docs/ARCHITECTURE.md)** · **[Evaluation](docs/EVALUATION.md)** · **[Learn it step by step](docs/LEARNING_GUIDE.md)**
+**[Explore the recorded AI demo](https://dk18234.github.io/webhook-recovery-lab/tracelens/)** · **[Public project hub](https://dk18234.github.io/webhook-recovery-lab/projects/)** · **[Architecture](docs/ARCHITECTURE.md)** · **[Evaluation](docs/EVALUATION.md)** · **[Learn it step by step](docs/LEARNING_GUIDE.md)**
 
 The public demo replays actual local-model sessions on synthetic incidents. It does not run live inference or accept new questions. The full local application below includes the Java service, PostgreSQL, real embedding and chat inference, editable questions, and a read-only connection to [Webhook Recovery Lab](https://github.com/dk18234/webhook-recovery-lab).
 

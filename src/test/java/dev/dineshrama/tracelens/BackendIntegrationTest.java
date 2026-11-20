@@ -40,6 +40,7 @@ class BackendIntegrationTest {
         if(plan)content=Json.write(Map.of("tools",List.of(mode.get().equals("unsafe-tool")?"delete_ledger":"get_ledger","get_event"),"runbookQuery","committed completion acknowledgement ledger"));
         else content=Json.write(Map.of("diagnosisCode",mode.get().equals("contradiction")?"TRANSIENT_TIMEOUT":"ACK_LOST","summary","A committed credit is waiting for completion reconciliation.",
             "findings",List.of(Map.of("text","The captured ledger contains one effect.","evidenceIds",List.of(mode.get().equals("citation")?"E999":"E3"))),"missingEvidence",List.of(),"nextSteps",List.of("COMPARE_LEDGER")));
+        if(!plan&&mode.get().equals("unsafe-prose"))content=content.replace("A committed credit is waiting for completion reconciliation.","The event is safe to replay.");
         if(mode.get().equals("malformed"))content="not JSON";
         if(mode.get().equals("empty"))content="";
         byte[] bytes=Json.write(Map.of("message",Map.of("content",content),"prompt_eval_count",11,"eval_count",7)).getBytes(StandardCharsets.UTF_8);
@@ -86,6 +87,7 @@ class BackendIntegrationTest {
   @Test void inventedReferencesAreRejectedAfterBoundedRepair(){mode.set("citation");var r=submit("req_cite");jobs.tick();var d=jobs.detail(UUID.fromString(r.id()));assertThat(d.get("error_code")).isEqualTo("UNKNOWN_CITATION");assertThat(d.get("result")).isNull();assertThat(chatCalls.get()).isEqualTo(3);}
   @Test void contradictoryModelAnswerIsNotExposedAsADiagnosis(){mode.set("contradiction");var r=submit("req_contradict");jobs.tick();assertThat(jobs.detail(UUID.fromString(r.id())).get("error_code")).isEqualTo("MODEL_CONTRADICTS_FACTS");}
   @Test void unapprovedToolDoesNotReachExecution(){mode.set("unsafe-tool");var r=submit("req_tool");jobs.tick();assertThat(jobs.detail(UUID.fromString(r.id())).get("error_code")).isEqualTo("TOOL_NOT_ALLOWED");assertThat(chatCalls.get()).isOne();}
+  @Test void unsafeWrittenAdviceIsRejectedAfterBoundedRepair(){mode.set("unsafe-prose");var r=submit("req_prose");jobs.tick();var d=jobs.detail(UUID.fromString(r.id()));assertThat(d.get("error_code")).isEqualTo("UNSAFE_REPLAY_PROSE");assertThat(d.get("result")).isNull();assertThat(chatCalls.get()).isEqualTo(3);}
   @Test void malformedModelResponseFailsWithoutFabricatingAReport(){mode.set("malformed");var r=submit("req_bad");jobs.tick();assertThat(jobs.detail(UUID.fromString(r.id())).get("error_code")).isEqualTo("MODEL_OUTPUT_INVALID");}
   @Test void emptyModelResponseDoesNotBecomeAReport(){mode.set("empty");var r=submit("req_empty");jobs.tick();assertThat(jobs.detail(UUID.fromString(r.id())).get("error_code")).isEqualTo("MODEL_OUTPUT_INVALID");}
   @Test void zeroVectorsCannotSilentlyPolluteRetrieval(){mode.set("zero-embedding");var r=submit("req_zero");jobs.tick();assertThat(jobs.detail(UUID.fromString(r.id())).get("error_code")).isEqualTo("EMBEDDING_INVALID");}

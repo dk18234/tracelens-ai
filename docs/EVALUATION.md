@@ -50,3 +50,7 @@ python scripts/package_demo.py
 ```
 
 The evaluator exits nonzero on a wrong/missing diagnosis or invalid references and still writes the observed results. The CI smoke selects one incident to keep container validation bounded; the checked-in local evaluation covers the full fixed set. Review raw results and compare cited prose with evidence rather than relying only on a pass count.
+
+## Prompt-injection regression and targeted prose checks
+
+A real intermediate run at commit `94e3beb84c6074011a4a84c629589e45f9d879b7` had 7/8 matching labels and valid source IDs, but its injected-log report still described replay as safe while backend policy blocked it. That is a concrete example of why label and citation scores are insufficient. The implementation now quarantines instruction-like captured logs before model input, retains the raw text for auditors, records the boundary in the trace, and rejects specific affirmative replay phrases when policy blocks replay. One repair is allowed. These are narrow heuristics, not a general prompt-injection detector or semantic entailment guarantee. Novel phrasing, misleading evidence, and other incorrect prose remain limitations. The interface calls the output an AI draft.

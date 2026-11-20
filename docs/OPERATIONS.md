@@ -52,7 +52,7 @@ A failed investigation has no replacement report. Existing accepted investigatio
 ```bash
 export WEBHOOK_BASE_URL=http://localhost:8080
 export WEBHOOK_ADMIN_TOKEN=local-admin-token-change-before-hosting
-export WEBHOOK_SECRET=local-webhook-signing-secret-change-me
+export WEBHOOK_SECRET=local-webhook-secret-change-before-hosting
 export ADMIN_TOKEN=local-tracelens-token-change-before-hosting
 python scripts/webhook_bridge_smoke.py
 ```
@@ -66,7 +66,7 @@ python scripts/live_evaluation.py --demo-output docs/demo-data.json
 python scripts/package_demo.py
 ```
 
-Review the resulting evidence before publishing. Only synthetic data belongs in the public repository. GitHub Pages serves `main:/docs`. The packaging script changes the shared UI's runtime marker to `recorded`; it does not synthesize model output. A model failure remains visible as a failed case. The source UI stays in live mode.
+Review the resulting evidence before publishing. Only synthetic data belongs in the public repository. The public project site serves a copy under `webhook-recovery-lab:/docs/tracelens`; this repository retains the canonical application and recordings. The packaging script changes the shared UI's runtime marker to `recorded`; it does not synthesize model output. A model failure remains visible as a failed case. The source UI stays in live mode.
 
 ## Diagnosing model quality
 
